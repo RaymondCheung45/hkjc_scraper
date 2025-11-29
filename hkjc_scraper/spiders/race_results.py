@@ -13,13 +13,11 @@ class HkjcSpider(scrapy.Spider):
     name = "race_results"
     allowed_domains = ["racing.hkjc.com"]
 
-    season = "2003-04"
+    season = "2025-26"
     race_dict = pd.read_csv(f"seasons_race_day//{season}.txt").to_dict(orient="records")
     data_folder_path = os.path.join("data", season, datetime.now().strftime("%Y-%m-%d_%H-%M-%S"))
 
-    start_urls = [
-        base_url.format(date=row["date"], racecourse=row["racecourse"], race_no=race_no) for row in race_dict for race_no in range(1, row["max_race"] + 1)
-    ]
+    start_urls = [base_url.format(date=row["date"], racecourse=row["racecourse"], race_no=race_no) for row in race_dict for race_no in range(1, row["max_race"] + 1)]
 
     custom_settings = {
         "FEEDS": {
